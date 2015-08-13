@@ -10,6 +10,7 @@
 
   Discourse.FacebookButton = Discourse.ButtonView.extend({
     text: 'Like',
+    classNames: ['share-facebook'],
     title: I18n.t('share.facebook'),
     click: function() {
       var title = this.get('controller.content.title');
@@ -40,6 +41,7 @@
 
   Discourse.TwitterButton = Discourse.ButtonView.extend({
     text: 'Tweet',
+    classNames: ['share-twitter'],
     title: I18n.t('share.twitter'),
     click: function() {
       var title = this.get('controller.content.title');
@@ -70,6 +72,7 @@
 
   Discourse.GoogleButton = Discourse.ButtonView.extend({
     text: 'G+',
+    classNames: ['share-google'],
     title: I18n.t('share.google+'),
     click: function() {
       var link = Discourse.AbsolutePath(this.get('controller.content.url'));
@@ -129,14 +132,14 @@
     }
   });
 
-  Discourse.MegaSocialButtonView = Ember.View.create({
-    tagName: 'button',
-    classNames: ['btn', 'btn-standard'],
-    templateName: 'social-button',
-    elementId: 'mega-social-button',
-    name: 'megaSocial',
-    sources: [Discourse.TwitterLink, Discourse.FacebookLink, Discourse.GoogleLink, Discourse.EmailLink]
-  });
+  //Discourse.MegaSocialButtonView = Ember.View.create({
+  //  tagName: 'button',
+  //  classNames: ['btn', 'btn-standard'],
+  //  templateName: 'social-button',
+  //  elementId: 'mega-social-button',
+  //  name: 'megaSocial',
+  //  sources: [Discourse.TwitterLink, Discourse.FacebookLink, Discourse.GoogleLink, Discourse.EmailLink]
+  //});
 
   Discourse.TopicFooterButtonsView.reopen({
     addAdditionalButtons: function() {
@@ -147,7 +150,11 @@
       this.attachViewClass(Discourse.MegaSocialButtonView);
       setTimeout(function() {
         // replace existing share button
-        $('#topic-footer-buttons .btn.share').replaceWith($('#mega-social-button'));
+        $('#topic-footer-buttons').prepend($('.share-email'));
+        $('#topic-footer-buttons').prepend($('.share-google'));
+        $('#topic-footer-buttons').prepend($('.share-twitter'));
+        $('#topic-footer-buttons').prepend($('.share-facebook'));
+        $('#topic-footer-buttons .btn.share').detach();
       }, 50);
     }.on("additionalButtons")
   });
